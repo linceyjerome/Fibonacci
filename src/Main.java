@@ -1,75 +1,20 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-       /* static List<Long> calculerSerieFibonacciIter(int terms) {
-            long a = 0;
-            long b = 1;
-            long nextTerm;
-            List<Long> result = new ArrayList<>();
-            for (int i = 0; i < terms; i++) {
-                result.add(a);
-                nextTerm = a + b;
-                a = b;
-                b = nextTerm;
-            }
-            return result;
-        }*/
-
-    static void calculerSerieFibonacciIter(int terms) {
-        long a = 0;
-        long b = 1;
-        long nextTerm;
-
-        
-        for (int i = 0; i < terms; i++) {
-            System.out.print(a + ", ");
-            nextTerm = a + b;
-            a = b;
-            b = nextTerm;
-        }
-
-    }
-
-        public static long fibonacciRecursive(int n) {
-            if (n <= 1) {
-                return n;
-            } else {
-                return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
-            }
-        }
-
-        /*public static List<Long> calculerSerieFibonacciRecursive(int terms) {
-            List<Long> result = new ArrayList<>();
-            for (int i = 0; i < terms; i++) {
-                result.add(fibonacciRecursive(i));
-            }
-            return result;
-        }*/
-        public static void calculerSerieFibonacciRecursive(int terms) {
-
-            for (int i = 0; i < terms; i++) {
-
-                System.out.print(fibonacciRecursive(i) + " ,");
-            }
-
-        }
-
         public static void main(String[] args) {
 
             Scanner sc = new Scanner(System.in);
-            int n = -1; // Initialisation à une valeur invalide
+            int termes = -1; // Initialisation à une valeur invalide
 
             // Demande à l'utilisateur d'entrer un nombre tant qu'il est négatif
-            while (n < 0) {
+            while (termes < 0) {
                 System.out.println("Entrer le nombre de termes à calculer (entier positif) : ");
                 try {
-                    n = sc.nextInt();
+                    termes = sc.nextInt();
 
                     // Vérification de l'entrée
-                    if (n < 0) {
+                    if (termes < 0) {
                         System.out.println("Erreur : Il faut entrer un entier positif.");
                     }
                 } catch (Exception e) {
@@ -80,22 +25,28 @@ public class Main {
 
             // Calcul itératif
             System.out.println("\n------------------ Série de Fibonacci - Itérative ---------------------");
-            double heureDebut = System.nanoTime();
-            //System.out.println("F" + n + " = " + calculerSerieFibonacciIter(n));
-            calculerSerieFibonacciIter(n);
-            double heureFin = System.nanoTime();
-            double dureeIter = (heureFin - heureDebut) / 1000;
-            System.out.println("\nDurée du calcul = " + dureeIter + " Microsecondes");
+            FibonacciIterative.calculerSuiteFibonacci(termes);
+            System.out.println("\nDuré de traitement de la methode itérative");
+            long dureeIterative = FibonacciIterative.calculerDureeExecution();
+            System.out.println(dureeIterative + " microsecondes");
 
             // Calcul récursif
-            System.out.println("\n------------------ Série de Fibonacci - Récursive ---------------------");
-            heureDebut = System.nanoTime();
-            //System.out.println("F" + n + " = " + calculerSerieFibonacciRecursive(n));
-            calculerSerieFibonacciRecursive(n);
-            heureFin = System.nanoTime();
-            double dureeRec = (heureFin - heureDebut) / 1000;
-            System.out.println("\nDurée du calcul = " + dureeRec + " Microsecondes");
+            System.out.println("\n------------------ Série de Fibonacci - Recursive ---------------------");
+            FibonacciRecursive.calculerSuiteFibonacci(termes);
+            System.out.println("\nDurée de traitement de la methode récursive");
+            long dureeRecursive = FibonacciRecursive.calculerDureeExecution();
+            System.out.println(dureeRecursive + " microsecondes");
 
+            System.out.println("\n------------------ Comparaison des durées de traitement ---------------------");
+            if (dureeRecursive < dureeIterative) {
+                System.out.println("La méthode récursive a été plus rapide");
+            }
+            else if (dureeRecursive > dureeIterative) {
+                System.out.println("La méthode itérative a été plus rapide");
+            }
+            else {
+                System.out.println("La durée de traitement est la même pour les deux méthodes");
+            }
 
             sc.close(); // Ferme le scanner
     }
